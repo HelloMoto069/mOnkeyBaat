@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "360952696588",
+    "project_id": "monkeybaat-229fd",
+    "storage_bucket": "monkeybaat-229fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360952696588:android:3b227d21e9fcbd601cc329",
+        "android_client_info": {
+          "package_name": "com.monkeybaat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360952696588-746p5f4euiedqe7239mg93pk7rf5j6g0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxU0bvFlgIBcbynnCahra1bF2PBjDJAWU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "360952696588-746p5f4euiedqe7239mg93pk7rf5j6g0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
