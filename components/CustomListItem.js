@@ -1,13 +1,28 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ListItem, Avatar } from '@rneui/themed';
 import { Icon } from "@rneui/themed";
+import firestore from '@react-native-firebase/firestore';
+
 
 const Separator = () => (
   <View style={styles.separator} />
 );
 
 const CustomListItem = ({ id, chatName, enterChat }) => {
+
+  const [chatMessages, setChatMessages] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = firestore().collection('chats').doc(id).collection('messages').orderBy('timestamp', 'desc').onSnapshot(snapshot => setChatMessages(
+      snapshot.docs.map(doc => ({
+        data: doc.data(),
+      }))
+    ));
+
+    return unsubscribe;
+  })
+
   return (
     <>
       <ListItem
@@ -28,13 +43,16 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
             {chatName}
           </ListItem.Title>
           <ListItem.Subtitle numberOfLines={1} ellipsizeMode='tail'>
-            Hi Bro... KasBe..!!! Chat dekhega..!!
+            {/* {chatMessages?.[0]?.email} : {chatMessages?.[0]?.message} */}
+            <Text>Text will be here</Text>
           </ListItem.Subtitle>
         </ListItem.Content>
       </ListItem>
     </>
   )
 }
+
+//Need to be change in Avatar
 
 
 export default CustomListItem

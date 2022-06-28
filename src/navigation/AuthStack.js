@@ -6,23 +6,14 @@ import LoginScreen from '../screens/LoginScreen';
 
 const Stack = createStackNavigator();
 
-const globalScreenOptions = {
-  headerStyle: { backgroundColor: '#2C6BED' },
-  headerTitleStyle: { color: 'white' },
-  headerTintColor: 'white',
-  alignItems: 'center',
-  justifyContent: 'center',
-};
-
 
 export default function AuthStack() {
   return (
-    <Stack.Navigator initialRouteName='Login'
-    screenOptions={globalScreenOptions}
-    >
+    <Stack.Navigator initialRouteName='Login'>
       <Stack.Screen
         name='Login'
         component={LoginScreen}
+        options={{ header: () => null }}
       />
       <Stack.Screen name='Signup' component={SignupScreen} />
     </Stack.Navigator>

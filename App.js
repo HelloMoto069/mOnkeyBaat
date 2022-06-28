@@ -1,16 +1,11 @@
 import 'react-native-gesture-handler';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StatusBar } from 'expo-status-bar';
 import LoginScreen from './screens/LoginScreen';
 import ResgisterScreen from './screens/ResgisterScreen';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { ToastProvider } from 'react-native-toast-notifications'
 import HomeScreen from './screens/HomeScreen';
-import auth from '@react-native-firebase/auth';
-import app from '@react-native-firebase/app';
 import { createStackNavigator } from '@react-navigation/stack';
 import AddChatScreen from './screens/AddChatScreen';
 import ChatScreen from './screens/ChatScreen';

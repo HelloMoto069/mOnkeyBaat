@@ -7,10 +7,6 @@ import { AuthContext } from './AuthProvider';
 import Loading from '../components/Loading';
 
 
-
-
-
-
 export default function Routes() {
     const { user, setUser } = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
@@ -25,14 +21,11 @@ export default function Routes() {
         const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
         return subscriber; // unsubscribe on unmount
     }, []);
-
     if (loading) {
         return <Loading />;
     }
-
     return (
-        <NavigationContainer
-        >
+        <NavigationContainer>
             {user ? <HomeStack /> : <AuthStack />}
         </NavigationContainer>
     );

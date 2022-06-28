@@ -38,7 +38,7 @@ const ResgisterScreen = ({ navigation }) => {
       .createUserWithEmailAndPassword(name, email, password,)
       .then((authUser) => {
 
-        authUser.updateProfile({
+        authUser.user.updateProfile({
           displayName: name,
           photoURL: imageUrl || 'https://raw.githubusercontent.com/HelloMoto069/Clayfin_Project/main/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png',
 

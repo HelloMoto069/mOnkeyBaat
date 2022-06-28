@@ -76,13 +76,13 @@ const LoginScreen = ({ navigation }) => {
           style={{
             width: 70, height: 78,
           }} /> */}
-          <LottieView
-        style={{height: 70, alignSelf: 'center'}}
-        source={require('../lottie/75986-monkey-emoji.json')}
-        autoPlay
-        speed={1.7}
-        loop={true}
-      />
+        <LottieView
+          style={{ height: 70, alignSelf: 'center' }}
+          source={require('../lottie/75986-monkey-emoji.json')}
+          autoPlay
+          speed={1.7}
+          loop={true}
+        />
         <Separator />
 
         <Text style={styles.text}>Welcome to mOnkeyBaat</Text>

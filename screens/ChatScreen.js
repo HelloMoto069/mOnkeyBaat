@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import firestore from '@react-native-firebase/firestore';
 import { firebase } from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
+import { withTheme } from 'styled-components';
 
 
 
@@ -15,6 +16,8 @@ const ChatScreen = ({ navigation, route }) => {
 
 
     const [input, setInput] = useState('');
+    const [messages, setMessages] = useState([]);
+
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -67,6 +70,19 @@ const ChatScreen = ({ navigation, route }) => {
         setInput('');
     }
 
+
+    useLayoutEffect(() => {
+        const unsubscribe = firestore().collection('chats').doc(route.params.id).collection('messages').orderBy('timestamp', 'asc').onSnapshot(snapshot => setMessages(
+            snapshot.docs.map(doc => ({
+                id: doc.id,
+                data: doc.data(),
+            }))
+        ));
+
+        return unsubscribe;
+
+    }, [route]);
+
     return (
         <SafeAreaView style={{
             flex: 1,
@@ -79,7 +95,24 @@ const ChatScreen = ({ navigation, route }) => {
                 {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
                 <>
                     <ScrollView>
-                        <Text>Hi</Text>
+                        {messages.map(({ id, data }) => (
+                            data.email === auth().currentUser.email ? (
+                                <View key={id} style={styles.reciever}>
+                                    <Avatar rounded position='absolute' bottom={-15} size={27} left={-5} source={{
+                                        uri: 'https://raw.githubusercontent.com/HelloMoto069/Clayfin_Project/main/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png',
+                                    }} />
+                                    <Text style={styles.recieverText}>{data.message}</Text>
+                                </View>
+                            ) : (
+                                <View style={styles.sender}>
+                                    <Avatar position='absolute' bottom={-15} size={27} left={-5} rounded source={{
+                                        uri: 'https://raw.githubusercontent.com/HelloMoto069/Clayfin_Project/main/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png',
+                                    }} />
+                                    <Text style={styles.senderText}>{data.message}</Text>
+                                    <Text style={styles.senderName}>{data.email}</Text>
+                                </View>
+                            )
+                        ))}
                     </ScrollView>
                     <View style={styles.footer}>
                         <TextInput
@@ -96,7 +129,7 @@ const ChatScreen = ({ navigation, route }) => {
                             <Icon name='send' type='font-awesome' color='#2C6BED' size={27} />
                             {/* <Icon name='send' type='font-awesome' color='#2B68E6' size={27} /> */}
                         </TouchableOpacity>)}
-                       
+
                     </View>
                 </>
                 {/* </TouchableWithoutFeedback> */}
@@ -104,6 +137,9 @@ const ChatScreen = ({ navigation, route }) => {
         </SafeAreaView>
     )
 }
+
+
+//Need to be change in Avatar
 
 export default ChatScreen;
 
@@ -130,4 +166,44 @@ const styles = StyleSheet.create({
         overflow: 'scroll',
         maxHeight: 130,
     },
+    reciever: {
+        padding: 15,
+        backgroundColor: '#ECECEC',
+        alignSelf: 'flex-end',
+        borderRadius: 20,
+        marginRight: 15,
+        margin: 15,
+        marginBottom: 20,
+        maxWidth: '70%',
+        position: 'relative',
+    },
+    recieverText: {
+        color: 'black',
+        fontWeight: '500',
+        marginLeft: 10,
+        // marginBottom: 15,
+    },
+    sender: {
+        padding: 15,
+        backgroundColor: '#2B68E6',
+        alignSelf: 'flex-start',
+        borderRadius: 20,
+        margin: 15,
+        // marginRight: 15,
+        // marginBottom: 20,
+        maxWidth: '70%',
+        position: 'relative',
+    },
+    senderText: {
+        color: 'white',
+        fontWeight: '500',
+        marginLeft: 10,
+        marginBottom: 15,
+    },
+    senderName: {
+        left: 10,
+        paddingRight: 10,
+        fontSize: 10,
+        color: 'white',
+    }
 })

@@ -23,7 +23,7 @@ const HomeScreen = ({ navigation }) => {
 
   const [chats, setChats] = useState([]);
 
-  const { logout } = useContext(AuthContext);
+  // const { logout } = useContext(AuthContext);
 
   const signOutUser = async () => {
     // await firebase
@@ -50,22 +50,20 @@ const HomeScreen = ({ navigation }) => {
   // }, [])
 
   useEffect(() => {
-  const unsubscribe = 
-    firestore().collection('chats').onSnapshot(snapshot => {
-      setChats(snapshot.docs.map(doc => ({
-        id: doc.id,
-        data: doc.data()
-      })))
-      // console.log(snapshot.docs)
-  });
+    const unsubscribe =
+      firestore().collection('chats').onSnapshot(snapshot => {
+        setChats(snapshot.docs.map(doc => ({
+          id: doc.id,
+          data: doc.data()
+        })))
+        // console.log(snapshot.docs)
+      });
 
-  return unsubscribe;
-}, [])
-
-
+    return unsubscribe;
+  }, [])
 
 
-  //For navigation Effect same as like useEffect only for IOS
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'mOnkeyBaat',
@@ -85,7 +83,7 @@ const HomeScreen = ({ navigation }) => {
             <Avatar rounded source={{ uri: 'https://raw.githubusercontent.com/HelloMoto069/Clayfin_Project/main/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png' }} />
           </TouchableOpacity>
 
-         </View>
+        </View>
       ),
       headerRight: () => (
         <View style={{
@@ -121,10 +119,10 @@ const HomeScreen = ({ navigation }) => {
         <ScrollView style={styles.container}>
           {chats.map(({ id, data: { chatName } }) => (
             <CustomListItem
-            key={id}
-            id={id}
-            chatName={chatName} 
-            enterChat={enterChat}
+              key={id}
+              id={id}
+              chatName={chatName}
+              enterChat={enterChat}
             />
           ))}
 
