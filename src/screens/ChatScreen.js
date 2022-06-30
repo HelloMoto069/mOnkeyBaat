@@ -1,77 +1,34 @@
-import { StyleSheet, Input, Text, TouchableOpacity, View, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useState, useLayoutEffect, useContext } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, SafeAreaView, KeyboardAvoidingView, ScrollView, TextInput, Keyboard } from 'react-native';
 import { Avatar, Icon } from '@rneui/themed';
 import { StatusBar } from 'expo-status-bar';
 import firestore from '@react-native-firebase/firestore';
 import { firebase } from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
-import { withTheme } from 'styled-components';
-
-
-
+import { AuthContext } from '../navigation/AuthProvider';
 
 
 
 const ChatScreen = ({ navigation, route }) => {
 
-
     const [input, setInput] = useState('');
     const [messages, setMessages] = useState([]);
 
+    const { sendMessage } = useContext(AuthContext);
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            // title: 'ChatScreen',
-            headerBackTitleVisible: false,
-            headerTitleAlign: 'left',
-            headerTitle: () => (
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                    }}
-                >
-                    <Avatar rounded source={{
-                        uri: 'https://raw.githubusercontent.com/HelloMoto069/Clayfin_Project/main/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png',
-                    }} />
-                    <Text style={{ marginLeft: 17, color: 'white', fontWeight: '700', fontSize: 17 }}>{route.params.chatName}</Text>
-                </View>
-            ),
-            headerRight: () => (
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    width: 90,
-                    marginRight: 29,
-                }}>
-                    <TouchableOpacity>
-                        <Icon name='phone' type='font-awesome' color='white' size={27} />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Icon name='videocam' type='ionicon' color='white' size={27} />
-                    </TouchableOpacity>
-                </View>
-            ),
-        });
+    // const sendMessage = () => {
+    //     firestore().collection('chats').doc(route.params.id).collection('messages').add({
+    //         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    //         message: input,
+    //         // displayName: auth().currentUser.displayName,
+    //         email: auth().currentUser.email,
+    //         // photoURL: auth().currentUser.photoURL,
+    //     })
+    //     console.log(input);
+    //     Keyboard.dismiss();
+    //     setInput('');
+    // }
 
-    }, [navigation]);
-
-
-    const sendMessage = () => {
-        firestore().collection('chats').doc(route.params.id).collection('messages').add({
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            message: input,
-            // displayName: auth().currentUser.displayName,
-            email: auth().currentUser.email,
-            // photoURL: auth().currentUser.photoURL,
-        })
-        console.log(input);
-        Keyboard.dismiss();
-        setInput('');
-    }
-
-
-    
     useLayoutEffect(() => {
         const unsubscribe = firestore().collection('chats').doc(route.params.id).collection('messages').orderBy('timestamp', 'asc').onSnapshot(snapshot => setMessages(
             snapshot.docs.map(doc => ({
@@ -84,16 +41,15 @@ const ChatScreen = ({ navigation, route }) => {
 
     }, [route]);
 
-    return (
-        <SafeAreaView style={{
-            flex: 1,
-            backgroundColor: 'white',
-        }}>
-            <StatusBar style="light" />
-            <KeyboardAvoidingView style={styles.container}
-                keyboardVerticalOffset={90} >
 
-                {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
+    return (
+        // <SafeAreaView style={{
+        //     flex: 1,
+        //     backgroundColor: 'white',
+        // }}>
+        //     <StatusBar style="light" />
+        //     <KeyboardAvoidingView style={styles.container}
+        //         keyboardVerticalOffset={90} >
                 <>
                     <ScrollView>
                         {messages.map(({ id, data }) => (
@@ -103,6 +59,7 @@ const ChatScreen = ({ navigation, route }) => {
                                         uri: 'https://raw.githubusercontent.com/HelloMoto069/Clayfin_Project/main/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png',
                                     }} />
                                     <Text style={styles.recieverText}>{data.message}</Text>
+                                    {/* <Text></Text> */}
                                 </View>
                             ) : (
                                 <View style={styles.sender}>
@@ -121,26 +78,24 @@ const ChatScreen = ({ navigation, route }) => {
                             style={styles.textInput}
                             placeholder='Type Your Message'
                             value={input}
-                            onSubmitEditing={sendMessage}
+                            onSubmitEditing={()=>sendMessage(input, setInput, route)}
+                            // onSubmitEditing={sendMessage}
                             onChangeText={(text) => setInput(text)} />
-                        {input.length > 0 ? (<TouchableOpacity onPress={sendMessage}>
+                        {input.length > 0 ? (<TouchableOpacity
+                        onPress={()=>sendMessage(input, setInput, route)}
+                        // onPress={sendMessage}
+                        >
                             <Icon name='send' type='font-awesome' color='#2C6BED' size={27} />
-                            {/* <Icon name='send' type='font-awesome' color='#2B68E6' size={27} /> */}
                         </TouchableOpacity>) : (<TouchableOpacity>
                             <Icon name='send' type='font-awesome' color='#2C6BED' size={27} />
-                            {/* <Icon name='send' type='font-awesome' color='#2B68E6' size={27} /> */}
                         </TouchableOpacity>)}
 
                     </View>
                 </>
-                {/* </TouchableWithoutFeedback> */}
-            </KeyboardAvoidingView>
-        </SafeAreaView>
+        //     </KeyboardAvoidingView>
+        // </SafeAreaView>
     )
 }
-
-
-//Need to be change in Avatar
 
 export default ChatScreen;
 

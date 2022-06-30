@@ -4,6 +4,8 @@ import { Image, Input } from "@rneui/themed";
 import { Button } from "@rneui/base";
 import firestore from '@react-native-firebase/firestore';
 import LottieView from 'lottie-react-native';
+import { firebase } from '@react-native-firebase/database';
+
 
 
 
@@ -15,6 +17,7 @@ const AddChatScreen = ({ navigation }) => {
   const createChat = async () => {
 
     await firestore().collection('chats').add({
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       chatName: input
     }).then(() => { navigation.goBack(); }).catch((error) => alert(error))
 
@@ -37,6 +40,7 @@ const AddChatScreen = ({ navigation }) => {
         speed={1}
         loop={true}
       />
+      
       <Input
         placeholder='Enter a Chat Name'
         value={input}

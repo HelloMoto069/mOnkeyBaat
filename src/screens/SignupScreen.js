@@ -5,13 +5,26 @@ import FormInput from '../components/FormInput';
 import { AuthContext } from '../navigation/AuthProvider';
 
 
+
 export default function SignupScreen({navigation}) {
+
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
+
+
     const { register } = useContext(AuthContext);
+
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Create an account</Text>
+            <Text style={styles.text}>🙏 Welcome to mOnkeyBaat 🙏</Text>
+            <FormInput
+                value={name}
+                placeholderText='Name'
+                onChangeText={userName => setName(userName)}
+                autoCorrect={false}
+            />
             <FormInput
                 value={email}
                 placeholderText='Email'
@@ -26,8 +39,13 @@ export default function SignupScreen({navigation}) {
                 onChangeText={userPassword => setPassword(userPassword)}
                 secureTextEntry={true}
             />
-            <FormButton
-        buttonTitle='Signup'
+            <FormInput
+                value={imageUrl}
+                placeholderText='Profile Picture Url (Optional)'
+                onChangeText={userProfile => setImageUrl(userProfile)}
+            />
+            <FormButton disabled={!email || !password}
+        buttonTitle='Register'
         onPress={() => register(email, password)}
       />
         </View>
@@ -35,7 +53,7 @@ export default function SignupScreen({navigation}) {
 }
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#f5f5f5',
+        backgroundColor: 'white',
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'

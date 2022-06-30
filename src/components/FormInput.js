@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 import { windowHeight, windowWidth } from '../utils/Dimensions';
+
 export default function FormInput({ labelValue, placeholderText, ...rest }) {
     return (
         <TextInput
@@ -13,6 +14,7 @@ export default function FormInput({ labelValue, placeholderText, ...rest }) {
         />
     );
 }
+
 const styles = StyleSheet.create({
     input: {
         padding: 10,

@@ -5,11 +5,7 @@ import { Icon } from "@rneui/themed";
 import firestore from '@react-native-firebase/firestore';
 
 
-const Separator = () => (
-  <View style={styles.separator} />
-);
-
-const CustomListItem = ({ id, chatName, enterChat }) => {
+const ChatList = ({ id, chatName, enterChat }) => {
 
   const [chatMessages, setChatMessages] = useState([]);
 
@@ -19,9 +15,9 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
         data: doc.data(),
       }))
     ));
+
     return unsubscribe;
   })
-  
 
   return (
     <>
@@ -51,15 +47,4 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
   )
 }
 
-//Need to be change in Avatar
-
-
-export default CustomListItem
-
-const styles = StyleSheet.create({
-  separator: {
-    marginVertical: 1,
-    borderBottomColor: '#737373',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-})
+export default ChatList;

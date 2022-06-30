@@ -1,20 +1,11 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View, ImageBackground } from 'react-native';
-import React, { useLayoutEffect, useEffect, useContext, useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import React, { useLayoutEffect, useEffect, useState } from 'react';
 import CustomListItem from '../components/CustomListItem';
 import { Avatar } from '@rneui/themed';
 import auth from '@react-native-firebase/auth';
-import database from '@react-native-firebase/database';
-import { AuthContext } from '../src/navigation/AuthProvider';
-import { Button } from "@rneui/base";
-import { firebase } from '@react-native-firebase/auth';
 import { Icon } from "@rneui/themed";
 import LottieView from 'lottie-react-native';
 import firestore from '@react-native-firebase/firestore';
-
-
-
-
-
 
 
 
@@ -51,12 +42,12 @@ const HomeScreen = ({ navigation }) => {
 
   useEffect(() => {
     const unsubscribe =
-      firestore().collection('chats').onSnapshot(snapshot => {
+      firestore().collection('chats').orderBy('timestamp', 'asc').onSnapshot(snapshot => {
         setChats(snapshot.docs.map(doc => ({
           id: doc.id,
           data: doc.data()
         })))
-        // console.log(snapshot.docs)
+        console.log(snapshot.docs)
       });
 
     return unsubscribe;
@@ -82,9 +73,9 @@ const HomeScreen = ({ navigation }) => {
             {/* <Avatar rounded source={{ uri: auth?.currentUser?.photoURL }} /> */}
             <Avatar rounded source={{ uri: 'https://raw.githubusercontent.com/HelloMoto069/Clayfin_Project/main/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png' }} />
           </TouchableOpacity>
-
         </View>
       ),
+      
       headerRight: () => (
         <View style={{
           flexDirection: 'row',
@@ -92,7 +83,9 @@ const HomeScreen = ({ navigation }) => {
           // width: 70,
           marginRight: 29,
         }}>
-          <TouchableOpacity activeOpacity={0.4}>
+          <TouchableOpacity activeOpacity={0.4}
+          onPress={() => navigation.navigate('UnderMaintenance')}
+          >
             <Icon name='camera-outline' type='ionicon' color='white' size={27} />
           </TouchableOpacity>
           {/* <TouchableOpacity
@@ -151,6 +144,7 @@ const HomeScreen = ({ navigation }) => {
           />
           {/* <Icon name='pencil' type='ionicon' color='white' size={27} /> */}
         </TouchableOpacity>
+        
       </SafeAreaView>
     </>
   )
@@ -162,9 +156,5 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     height: '100%',
-  },
-  butts: {
-    width: 150,
-    paddingLeft: 50,
   },
 })

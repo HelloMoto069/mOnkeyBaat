@@ -4,7 +4,9 @@ import FormButton from '../components/FormButton';
 import FormInput from '../components/FormInput';
 import { AuthContext } from '../navigation/AuthProvider';
 
+
 export default function LoginScreen({ navigation }) {
+    
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -12,7 +14,7 @@ export default function LoginScreen({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Welcome to Firebase app</Text>
+            <Text style={styles.text}>🙏 Welcome to mOnkeyBaat 🙏</Text>
             <FormInput
                 value={email}
                 placeholderText='Email'
@@ -27,12 +29,12 @@ export default function LoginScreen({ navigation }) {
                 onChangeText={userPassword => setPassword(userPassword)}
                 secureTextEntry={true}
             />
-            <FormButton buttonTitle='Login' onPress={() => login(email, password)} />
+            <FormButton disabled={!email || !password} buttonTitle='Login' onPress={() => login(email, password)} />
             <TouchableOpacity
                 style={styles.navButton}
                 onPress={() => navigation.navigate('Signup')}
             >
-                <Text style={styles.navButtonText}>New user? Join here</Text>
+                <Text style={styles.navButtonText}>👉 New user? Register here.!!</Text>
             </TouchableOpacity>
         </View>
     );
@@ -40,20 +42,20 @@ export default function LoginScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#f5f5f5',
+        backgroundColor: 'white',
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
     text: {
         fontSize: 24,
-        marginBottom: 10
+        marginBottom: 10,
     },
     navButton: {
         marginTop: 15
     },
     navButtonText: {
         fontSize: 20,
-        color: '#6646ee'
+        color: '#2C6BED'
     }
 });

@@ -28,8 +28,6 @@ const ResgisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [imageUrl, setImageUrl] = useState('');
-  const [message, setMessage] = useState('');
-
 
 
   const register = async () => {
@@ -127,7 +125,6 @@ const ResgisterScreen = ({ navigation }) => {
               onSubmitEditing={register}
             />
 
-            <Text>{message}</Text>
 
           </View>
 

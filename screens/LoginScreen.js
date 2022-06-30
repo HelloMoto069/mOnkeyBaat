@@ -119,7 +119,7 @@ const LoginScreen = ({ navigation }) => {
         <Separator />
         {/* <Button onPress={() => navigation.navigate('Register')} containerStyle={styles.butts} type="outline" title='Register' /> */}
         {/* <Separator /> */}
-        <Button onPress={() => navigation.navigate('Home')} containerStyle={styles.butts} type="outline" title='Current' />
+        {/* <Button onPress={() => navigation.navigate('Home')} containerStyle={styles.butts} type="outline" title='Current' /> */}
 
         <TouchableOpacity
           style={styles.navButton}
