@@ -47,7 +47,7 @@ const HomeScreen = ({ navigation }) => {
           id: doc.id,
           data: doc.data()
         })))
-        console.log(snapshot.docs)
+        // console.log(snapshot.docs)
       });
 
     return unsubscribe;
@@ -99,6 +99,7 @@ const HomeScreen = ({ navigation }) => {
   }, [navigation])
 
   const enterChat = (id, chatName) => {
+    console.log(id)
     navigation.navigate('ChatScreen', {
       id, chatName,
     });

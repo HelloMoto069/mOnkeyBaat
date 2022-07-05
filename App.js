@@ -1,12 +1,27 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Providers from './src/navigation/Index';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import LottieFiles from './src/components/LottieFiles';
 
 
 export default function App() {
-  return <>
-  <Providers />
-  </>;
+
+  const [flag, setFlag] = useState(false);
+
+  return (
+
+//   <>
+//  {!flag ?
+//   <LottieFiles duration={1700} loop={false} source={require('./src/lottie/86577-meditating-monkey.json')}
+//   style={{height: 200, alignSelf: 'center',  }}
+//   onAnimationFinish={() => setFlag(!flag)} 
+//   /> :
+//   <Providers /> }
+//   </>
+
+<Providers />
+
+  )
 }
 
 

@@ -6,7 +6,7 @@ import { AuthContext } from '../navigation/AuthProvider';
 
 
 
-export default function SignupScreen({navigation}) {
+export default function SignupScreen({ navigation }) {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -44,10 +44,10 @@ export default function SignupScreen({navigation}) {
                 placeholderText='Profile Picture Url (Optional)'
                 onChangeText={userProfile => setImageUrl(userProfile)}
             />
-            <FormButton disabled={!email || !password}
-        buttonTitle='Register'
-        onPress={() => register(email, password)}
-      />
+            <FormButton disable={!email || password.length<6}
+                buttonTitle='Register'
+                onPress={() => register(email, password)}
+            />
         </View>
     );
 }

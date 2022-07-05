@@ -49,10 +49,10 @@ const AddChat = ({ navigation }) => {
                     value={input}
                     onChangeText={text => setInput(text)}
                     leftIcon={{ type: 'antdesign', name: 'wechat' }}
-                    onSubmitEditing={() => createChat(input, navigation)}
+                    onSubmitEditing={() => createChat(input.trim(), navigation)}
                 />
 
-                <FormButton buttonTitle='Create' onPress={() => createChat(input, navigation)} />
+                <FormButton buttonTitle='Create' onPress={() => createChat(input.trim(), navigation)} />
 
             </View>
         </>

@@ -1,11 +1,10 @@
-import { StyleSheet, Input, Text, TouchableOpacity, View, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, SafeAreaView, KeyboardAvoidingView, ScrollView, TextInput, Keyboard } from 'react-native';
 import React, { useLayoutEffect, useState } from 'react';
 import { Avatar, Icon } from '@rneui/themed';
 import { StatusBar } from 'expo-status-bar';
 import firestore from '@react-native-firebase/firestore';
 import { firebase } from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
-import { withTheme } from 'styled-components';
 
 
 

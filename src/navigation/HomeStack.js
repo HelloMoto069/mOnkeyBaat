@@ -1,12 +1,13 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
-import { TouchableOpacity, View } from 'react-native';
-import { Avatar } from '@rneui/themed';
 import AddChat from '../screens/AddChat';
 import ChatList from '../components/ChatList';
 import ChatScreen from '../screens/ChatScreen';
-// import UnderMaintenance from '../screens/UnderMaintenance';
+import UnderMaintenance from '../screens/UnderMaintenance';
+import SettingScreen from '../screens/SettingScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import Imagepick from '../components/Imagepick';
 
 
 
@@ -37,11 +38,22 @@ export default function HomeStack() {
           headerTitle: "Create New Chat",
         }}
       />
-      <Stack.Screen name='ChatList' component={ChatList}
-      />
-      <Stack.Screen name='ChatScreen' component={ChatScreen}
-      />
-      {/* <Stack.Screen name='UnderMaintenance' component={UnderMaintenance} /> */}
+      <Stack.Screen name='ChatList' component={ChatList} />
+
+      <Stack.Screen name='ChatScreen' component={ChatScreen} />
+
+      <Stack.Screen name='UnderMaintenance' component={UnderMaintenance} />
+
+      <Stack.Screen name='Settings' component={SettingScreen} />
+
+      <Stack.Screen name='ProfileScreen' component={ProfileScreen} />
+
+
+      {/* Class Based */}
+
+      <Stack.Screen name='Imgpck' component={Imagepick} /> 
+      
+
     </Stack.Navigator>
   );
 }

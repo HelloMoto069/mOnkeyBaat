@@ -1,9 +1,7 @@
 import React, { useState, useLayoutEffect, useContext } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, SafeAreaView, KeyboardAvoidingView, ScrollView, TextInput, Keyboard } from 'react-native';
+import { StyleSheet, Image, Text, TouchableOpacity, View, ScrollView, TextInput } from 'react-native';
 import { Avatar, Icon } from '@rneui/themed';
-import { StatusBar } from 'expo-status-bar';
 import firestore from '@react-native-firebase/firestore';
-import { firebase } from '@react-native-firebase/database';
 import auth from '@react-native-firebase/auth';
 import { AuthContext } from '../navigation/AuthProvider';
 
@@ -15,85 +13,100 @@ const ChatScreen = ({ navigation, route }) => {
     const [messages, setMessages] = useState([]);
 
     const { sendMessage } = useContext(AuthContext);
+    const { launchImageLibrary } = useContext(AuthContext);
 
-    // const sendMessage = () => {
-    //     firestore().collection('chats').doc(route.params.id).collection('messages').add({
-    //         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    //         message: input,
-    //         // displayName: auth().currentUser.displayName,
-    //         email: auth().currentUser.email,
-    //         // photoURL: auth().currentUser.photoURL,
-    //     })
-    //     console.log(input);
-    //     Keyboard.dismiss();
-    //     setInput('');
+    // const gallsend = async () => {
+    //     await launchImageLibrary().then(() => sendMessage())
     // }
+    const gallsend = () => {
+        launchImageLibrary();
+        sendMessage();
+    }
 
     useLayoutEffect(() => {
+
+        navigation.setOptions({
+            // title: 'ChatScreen',
+            headerBackTitleVisible: false,
+            headerTitleAlign: 'left',
+            headerTitle: () => (
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Avatar rounded source={{
+                        uri: 'https://raw.githubusercontent.com/HelloMoto069/Clayfin_Project/main/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png',
+                    }} />
+                    <Text style={{ marginLeft: 17, color: 'white', fontWeight: '700', fontSize: 17 }}>{route.params.chatName}</Text>
+                </View>
+            ),
+        });
+
         const unsubscribe = firestore().collection('chats').doc(route.params.id).collection('messages').orderBy('timestamp', 'asc').onSnapshot(snapshot => setMessages(
             snapshot.docs.map(doc => ({
                 id: doc.id,
                 data: doc.data(),
             }))
         ));
-
+        console.log(messages);
         return unsubscribe;
 
-    }, [route]);
+    }, [navigation, route]);
+
+
 
 
     return (
-        // <SafeAreaView style={{
-        //     flex: 1,
-        //     backgroundColor: 'white',
-        // }}>
-        //     <StatusBar style="light" />
-        //     <KeyboardAvoidingView style={styles.container}
-        //         keyboardVerticalOffset={90} >
-                <>
-                    <ScrollView>
-                        {messages.map(({ id, data }) => (
-                            data.email === auth().currentUser.email ? (
-                                <View key={id} style={styles.reciever}>
-                                    <Avatar rounded position='absolute' bottom={-15} size={27} left={-5} source={{
-                                        uri: 'https://raw.githubusercontent.com/HelloMoto069/Clayfin_Project/main/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png',
-                                    }} />
-                                    <Text style={styles.recieverText}>{data.message}</Text>
-                                    {/* <Text></Text> */}
-                                </View>
-                            ) : (
-                                <View style={styles.sender}>
-                                    <Avatar position='absolute' bottom={-15} size={27} left={-5} rounded source={{
-                                        uri: 'https://raw.githubusercontent.com/HelloMoto069/Clayfin_Project/main/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png',
-                                    }} />
-                                    <Text style={styles.senderText}>{data.message}</Text>
-                                    <Text style={styles.senderName}>{data.email}</Text>
-                                </View>
-                            )
-                        ))}
-                    </ScrollView>
-                    <View style={styles.footer}>
-                        <TextInput
-                            multiline
-                            style={styles.textInput}
-                            placeholder='Type Your Message'
-                            value={input}
-                            onSubmitEditing={()=>sendMessage(input, setInput, route)}
-                            // onSubmitEditing={sendMessage}
-                            onChangeText={(text) => setInput(text)} />
-                        {input.length > 0 ? (<TouchableOpacity
-                        onPress={()=>sendMessage(input, setInput, route)}
-                        // onPress={sendMessage}
-                        >
-                            <Icon name='send' type='font-awesome' color='#2C6BED' size={27} />
-                        </TouchableOpacity>) : (<TouchableOpacity>
-                            <Icon name='send' type='font-awesome' color='#2C6BED' size={27} />
-                        </TouchableOpacity>)}
+        <>
+            <ScrollView>
+                {messages.map(({ id, data }) => (
+                    data.email === auth().currentUser.email ? (
+                        <View key={id} style={styles.reciever}>
+                            <Avatar rounded position='absolute' bottom={-15} size={27} left={-5} source={{
+                                uri: 'https://raw.githubusercontent.com/HelloMoto069/Clayfin_Project/main/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png',
+                            }} />
 
-                    </View>
-                </>
-        //     </KeyboardAvoidingView>
-        // </SafeAreaView>
+                            {data.Photos.length > 0 ? (<Image resizeMode='contain' style={{ width: 200, height: 200 }} source={{ uri: data.Photos }} />) : (<Text style={styles.recieverText}>{data.message}</Text>)}
+
+                            {/* <Text style={styles.recieverText}>{data.message}</Text>
+                            <Image style ={{width:200,height:200}} source={{uri : data.Photos}}/> */}
+                        </View>
+                    ) : (
+                        <View style={styles.sender}>
+                            <Avatar position='absolute' bottom={-15} size={27} left={-5} rounded source={{
+                                uri: 'https://raw.githubusercontent.com/HelloMoto069/Clayfin_Project/main/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png',
+                            }} />
+                            <Text style={styles.senderText}>{data.message}</Text>
+                            <Text style={styles.senderName}>{data.email.split('@')[0]}</Text>
+                        </View>
+                    )
+                ))}
+            </ScrollView>
+            <View style={styles.footer}>
+                <TextInput
+                    multiline
+                    style={styles.textInput}
+                    placeholder='Type Your Message'
+                    value={input}
+                    onChangeText={(text) => setInput(text)} />
+                <TouchableOpacity onPress={() => gallsend()} style={{ marginRight: 17 }}>
+                    <Icon name='camera' type='font-awesome' color='black' size={27} />
+                </TouchableOpacity>
+
+
+                {input.length > 0 ? (<TouchableOpacity
+                    onPress={() => sendMessage(input, setInput, route)}
+                // onPress={sendMessage}
+                >
+                    <Icon name='send' type='font-awesome' color='#2C6BED' size={27} />
+                </TouchableOpacity>) : (<TouchableOpacity>
+                    <Icon name='send' type='font-awesome' color='#2C6BED' size={27} />
+                </TouchableOpacity>)}
+
+            </View>
+        </>
     )
 }
 
