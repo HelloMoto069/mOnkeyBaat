@@ -1,8 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import FormButton from '../components/FormButton';
 import FormInput from '../components/FormInput';
 import { AuthContext } from '../navigation/AuthProvider';
+import { launchImageLibrary } from 'react-native-image-picker';
+import storage from '@react-native-firebase/storage'
 
 
 
@@ -14,7 +16,9 @@ export default function SignupScreen({ navigation }) {
     const [imageUrl, setImageUrl] = useState('');
 
 
+
     const { register } = useContext(AuthContext);
+
 
     return (
         <View style={styles.container}>
@@ -41,12 +45,14 @@ export default function SignupScreen({ navigation }) {
             />
             <FormInput
                 value={imageUrl}
-                placeholderText='Profile Picture Url (Optional)'
+                placeholder='Profile Picture Url (Optional)'
                 onChangeText={userProfile => setImageUrl(userProfile)}
+                
             />
-            <FormButton disable={!email || password.length<6}
+
+            <FormButton disable={!email || password.length < 6}
                 buttonTitle='Register'
-                onPress={() => register(email, password)}
+                onPress={() => register(name.trim(), email.trim(), password, imageUrl)}
             />
         </View>
     );

@@ -52,7 +52,7 @@ const AddChat = ({ navigation }) => {
                     onSubmitEditing={() => createChat(input.trim(), navigation)}
                 />
 
-                <FormButton buttonTitle='Create' onPress={() => createChat(input.trim(), navigation)} />
+                <FormButton buttonTitle='Create Public Group' onPress={() => createChat(input.trim(), navigation)} />
 
             </View>
         </>

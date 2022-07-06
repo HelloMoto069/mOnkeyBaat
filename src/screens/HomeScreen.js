@@ -1,11 +1,12 @@
 import React, { useContext, useLayoutEffect, useState, useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { AuthContext } from '../navigation/AuthProvider';
 import { Avatar } from '@rneui/themed';
 import LottieFiles from '../components/LottieFiles';
 import firestore from '@react-native-firebase/firestore';
 import ChatList from '../components/ChatList';
-import { Icon, SpeedDial } from "@rneui/themed";
+import { Icon, } from "@rneui/themed";
+import auth from '@react-native-firebase/auth';
+
 
 
 
@@ -15,13 +16,7 @@ import { Icon, SpeedDial } from "@rneui/themed";
 export default function HomeScreen({ navigation, route }) {
 
   const [chats, setChats] = useState([]);
-
-  const [open, setOpen] = useState(false);
-
-  // const { enterChat } = useContext(AuthContext);
   
-  const { logout } = useContext(AuthContext);
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -35,11 +30,20 @@ export default function HomeScreen({ navigation, route }) {
         </View>
       ),
       headerRight: () => (
-        <View style={{ marginRight: 21, }}>
+        <View style={{ marginRight: 21, flexDirection: 'row',
+        justifyContent: 'space-between', width: 70,}}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('UserList')}
+            activeOpacity={0.7}>
+            <Icon
+              name='users'
+              type='font-awesome'
+              color='white'
+            />
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate('Settings')}
             activeOpacity={0.7}>
-            {/* <Avatar rounded source={{ uri: auth?.currentUser?.photoURL }} /> */}
             <Icon
               name='settings'
               type='material'
@@ -59,9 +63,9 @@ export default function HomeScreen({ navigation, route }) {
           id: doc.id,
           data: doc.data()
         })))
-        // console.log(snapshot.docs)
+        console.log(snapshot.docs)
       });
-
+      // console.log(chats)
     return unsubscribe;
   }, [])
 

@@ -3,8 +3,10 @@ import { Keyboard } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { firebase } from '@react-native-firebase/database';
+import * as authfire from '@react-native-firebase/auth';
 import * as ImagePicker from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage';
+import { getAuth, updateProfile } from "firebase/auth";
 
 
 
@@ -17,7 +19,7 @@ export const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null);
-    const [fileUri ,setFileUri] = useState('')
+    const [fileUri, setFileUri] = useState('')
 
     return (
         <AuthContext.Provider
@@ -33,9 +35,20 @@ export const AuthProvider = ({ children }) => {
                     }
                 },
 
-                register: async (email, password) => {
+                register: async (name, email, password, imageUrl) => {
+                    if (imageUrl.length===0){
+                        imageUrl = 'https://raw.githubusercontent.com/HelloMoto069/Clayfin_Project/main/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png'
+                    }
                     try {
-                        await auth().createUserWithEmailAndPassword(email, password);
+                        await auth().createUserWithEmailAndPassword(email, password).then((authUser) => {
+                            firestore().collection('users').doc(authUser.user.uid).set({
+                                name: name,
+                                email: authUser.user.email,
+                                uid: authUser.user.uid,
+                                dp: imageUrl
+                            });
+                            console.log(authUser.user)
+                        });
                     } catch (e) {
                         console.log(e);
                     }
@@ -119,7 +132,7 @@ export const AuthProvider = ({ children }) => {
                     });
                 },
 
-
+                
 
 
             }}

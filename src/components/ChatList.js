@@ -25,6 +25,7 @@ const ChatList = ({ id, chatName, enterChat, route }) => {
     return unsubscribe;
   },[])
 
+  
   return (
     <>
       <ListItem.Swipeable
@@ -44,7 +45,7 @@ const ChatList = ({ id, chatName, enterChat, route }) => {
           size={47}
           rounded
           source={{
-            uri: 'https://raw.githubusercontent.com/HelloMoto069/Clayfin_Project/main/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png',
+            uri: 'https://png.pngtree.com/element_our/png_detail/20181229/vector-chat-icon-png_302635.jpg',
           }}
         />
         <ListItem.Content>
